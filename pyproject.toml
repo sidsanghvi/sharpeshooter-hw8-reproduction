@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sharpeshooter"
+version = "0.1.0"
+description = "Deterministic shared research ledger"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "jsonschema>=4,<5",
+    "mcp>=2,<3",
+    "pyarrow==22.0.0",
+    "uvicorn>=0.30,<1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+
+[project.scripts]
+builder = "agents.builder:main"
+scout = "agents.scout:main"
+sharpeshooter-admin = "sharpeshooter.operator_cli:main"
+sharpeshooter-task = "sharpeshooter.task_cli:main"
+skeptic = "agents.skeptic:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sharpeshooter", "agents"]
+
+[tool.uv]
+default-groups = ["dev"]
+
+[dependency-groups]
+dev = ["pytest>=8,<9"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
